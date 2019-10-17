@@ -14,18 +14,19 @@ public class GameManager : MonoBehaviour
     public GameObject largePointsPrefab;
     public GameObject debrisPrebab;
     public GameObject[] ImageLoop;
-    public float imageLoopSpeed;
+    public float OBJECT_LEFT_SPEED;
 
     public bool isPaused = false;
 
     void Awake() 
     {
         SetInstance();
+        isPaused = true;
     }
 
     void Start() 
     {
-        imageLoopSpeed = 2f;
+        OBJECT_LEFT_SPEED = 2f;
     }
 
     void SetInstance()
@@ -61,5 +62,7 @@ public class GameManager : MonoBehaviour
             menuOverlay.SetActive(false);
         }
     }
+
+
     
 }

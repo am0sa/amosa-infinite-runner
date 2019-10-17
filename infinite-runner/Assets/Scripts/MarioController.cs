@@ -8,8 +8,10 @@ public class MarioController : MonoBehaviour
     public Animator marioAnimator;
     public Rigidbody2D rigidBody;
 
-    public float MARIO_SPEED;
+    public float DEFAULT_MARIO_SPEED;
+    public float marioSpeed;
     public float JUMP_FORCE;
+    public float levelDrift;
 
     public int pointsEarned;
 
@@ -27,9 +29,11 @@ public class MarioController : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
+        levelDrift = gameManager.OBJECT_LEFT_SPEED;
         JUMP_FORCE = 245f;
-        MARIO_SPEED = 1f;
-        
+        DEFAULT_MARIO_SPEED = 4.5f;
+        marioSpeed = DEFAULT_MARIO_SPEED;
+
         rigidBody = GetComponent<Rigidbody2D>();
 
         marioAnimator.SetBool("MarioIsRunning", false);
@@ -45,10 +49,21 @@ public class MarioController : MonoBehaviour
     {
         if (!gameManager.isPaused)
         {
-            // if (Input.GetAxis("Horizontal") == 0 && Input.GetAxis("Vertical") == 0 && !grounded)
-            // {
-            //     AnimBoolReset();
-            // }
+            transform.Translate(Vector2.left * (levelDrift) * Time.deltaTime);
+
+            if (Input.GetKey(KeyCode.LeftShift))
+            {
+                marioSpeed = DEFAULT_MARIO_SPEED * 1.75f;
+            }
+            else
+            {
+                marioSpeed = DEFAULT_MARIO_SPEED;
+            }
+
+            if (Input.GetKeyDown(KeyCode.Escape))
+            {
+                gameManager.PauseGame();
+            }
 
             if (!grounded)
             {
@@ -61,6 +76,17 @@ public class MarioController : MonoBehaviour
             }
 
             //Animator Bools and Movement
+            if ((Input.GetAxis("Vertical") < 0 ) && grounded && (Input.GetAxis("Horizontal") == 0 ))
+            {
+                marioAnimator.SetBool("MarioIsDucking", true);
+                marioAnimator.SetBool("MarioIsRunning", false);
+            }
+            else
+            {
+                marioAnimator.SetBool("MarioIsDucking", false);
+                marioAnimator.SetBool("MarioIsRunning", true);
+            }
+
             if (Input.GetAxis("Horizontal") > 0)
             {
                 if (marioAnimator.GetBool("MarioStandStill")) 
@@ -73,20 +99,16 @@ public class MarioController : MonoBehaviour
                     marioAnimator.SetBool("MarioIsRunning", true);
                 }
 
-                transform.Translate(Vector2.right * MARIO_SPEED * Time.deltaTime);
+                transform.Translate(Vector2.right * marioSpeed * Time.deltaTime);
             }
-            else if (Input.GetAxis("Horizontal") <= 0)
+            else if (Input.GetAxis("Horizontal") < 0)
             {
-                if (marioAnimator.GetBool("MarioIsRunning"))
-                {
-                    marioAnimator.SetBool("MarioIsRunning", false);
-                }
                 if (grounded)
                 {
-                    marioAnimator.SetBool("MarioStandStill", true);
+                    marioAnimator.SetBool("MarioIsRunning", true);
                 }
                 
-                transform.Translate(Vector2.left * MARIO_SPEED * Time.deltaTime);
+                transform.Translate(Vector2.left * (marioSpeed) * Time.deltaTime);
             }
             
             if (Input.GetKey(KeyCode.W) && grounded)
@@ -105,6 +127,15 @@ public class MarioController : MonoBehaviour
             else
             {
                 rigidBody.gravityScale = 1f;
+            }
+
+
+        }
+        else
+        {
+            if (Input.GetKeyDown(KeyCode.Escape))
+            {
+                gameManager.UnpauseGame();
             }
         }
 

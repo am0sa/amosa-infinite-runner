@@ -680,6 +680,9 @@ AnimatorStateTransition:
   - m_ConditionMode: 1
     m_ConditionEvent: MarioStandStill
     m_EventTreshold: 0
+  - m_ConditionMode: 2
+    m_ConditionEvent: MarioIsDucking
+    m_EventTreshold: 0
   m_DstStateMachine: {fileID: 0}
   m_DstState: {fileID: 7257304488655316428}
   m_Solo: 0
