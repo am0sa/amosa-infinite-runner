@@ -6,27 +6,32 @@ public class GameManager : MonoBehaviour
 {
     public static GameManager Instance = null;
     public GameObject menuOverlay;
-    public GameObject bulletPrefab;
+    public GameObject bulletPrefab;  //delete from here-----
     public GameObject coinPrefab;
     public GameObject rareCoinPrefab;
     public GameObject blockPrefab;
     public GameObject smallPointsPrefab;
     public GameObject largePointsPrefab;
-    public GameObject debrisPrebab;
+    public GameObject debrisPrebab;  //to here--------------
     public GameObject[] ImageLoop;
-    public float OBJECT_LEFT_SPEED;
+    public GameObject[] prefabList;
 
+    public float WORLD_LEFT_SPEED;
+
+    public enum SpawnPos {fromAbove = 0, fromAhead = 1}
     public bool isPaused = false;
 
-    void Awake() 
+    void Awake()
     {
         SetInstance();
         isPaused = true;
+        WORLD_LEFT_SPEED = 3f;
     }
 
-    void Start() 
+    void Start()
     {
-        OBJECT_LEFT_SPEED = 2f;
+        InvokeRepeating("RandomSpawn", 6.9f, 1f);
+        InvokeRepeating("RandomSpawn2", Random.Range(3, 7), 1f);
     }
 
     void SetInstance()
@@ -63,6 +68,49 @@ public class GameManager : MonoBehaviour
         }
     }
 
+    public void RandomSpawn()  //y < 12, x > 20
+    {
+        GameObject prefab = prefabList[(int)(Random.Range(2, 7))];
+        SpawnPos spawn = SpawnPos.fromAbove;
 
-    
+        float tempY = 0;
+        float tempX = 0;
+
+        if (spawn == SpawnPos.fromAbove)
+        {
+            tempY = 13f;
+            tempX = Random.Range(-15f, 18.1f);
+        }
+        
+        if(spawn == SpawnPos.fromAhead)
+        {
+            tempY = Random.Range(0, 12f);
+            tempX = 20f;
+        }
+
+        GameObject temp = Instantiate(prefab, new Vector3(tempX, tempY, 0f), prefab.transform.rotation);
+    }
+
+    public void RandomSpawn2()  //y < 12, x > 20
+    {
+        GameObject prefab = prefabList[(int)(Random.Range(0, 3))];
+        SpawnPos spawn = SpawnPos.fromAhead;
+
+        float tempY = 0;
+        float tempX = 0;
+
+        if (spawn == SpawnPos.fromAbove)
+        {
+            tempY = 13f;
+            tempX = Random.Range(-15f, 18.1f);
+        }
+        
+        if(spawn == SpawnPos.fromAhead)
+        {
+            tempY = Random.Range(0, 6f);
+            tempX = 20f;
+        }
+
+        GameObject temp = Instantiate(prefab, new Vector3(tempX, tempY, 0f), prefab.transform.rotation);
+    }
 }

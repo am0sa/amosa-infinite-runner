@@ -26,12 +26,11 @@ public class MarioController : MonoBehaviour
         marioAnimator.SetBool("MarioStandStill", false);
     }
 
-    // Start is called before the first frame update
     void Start()
     {
-        levelDrift = gameManager.OBJECT_LEFT_SPEED;
+        levelDrift = gameManager.WORLD_LEFT_SPEED;
         JUMP_FORCE = 245f;
-        DEFAULT_MARIO_SPEED = 4.5f;
+        DEFAULT_MARIO_SPEED = 6.5f;
         marioSpeed = DEFAULT_MARIO_SPEED;
 
         rigidBody = GetComponent<Rigidbody2D>();
@@ -47,13 +46,18 @@ public class MarioController : MonoBehaviour
 
     void Update()
     {
+        if (transform.position.y <= 0.484f)
+        {
+            grounded = true;
+        }
+
         if (!gameManager.isPaused)
         {
             transform.Translate(Vector2.left * (levelDrift) * Time.deltaTime);
 
             if (Input.GetKey(KeyCode.LeftShift))
             {
-                marioSpeed = DEFAULT_MARIO_SPEED * 1.75f;
+                marioSpeed = DEFAULT_MARIO_SPEED * 2.5f;
             }
             else
             {
@@ -128,8 +132,6 @@ public class MarioController : MonoBehaviour
             {
                 rigidBody.gravityScale = 1f;
             }
-
-
         }
         else
         {
@@ -138,7 +140,6 @@ public class MarioController : MonoBehaviour
                 gameManager.UnpauseGame();
             }
         }
-
     }
 
 
@@ -153,9 +154,5 @@ public class MarioController : MonoBehaviour
             grounded = false;
         }
     
-        if (other.gameObject.tag == "mushroom")
-        {
-            pointsEarned += 100;
-        }
     }
 }
