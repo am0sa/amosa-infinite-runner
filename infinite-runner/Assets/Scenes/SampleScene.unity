@@ -2290,13 +2290,14 @@ MonoBehaviour:
   debrisPrebab: {fileID: 2276133496358200787, guid: 2d8b1a72a24c9478a9a1500e666a1539,
     type: 3}
   floorContainer: {fileID: 1754349161}
+  player: {fileID: 2061573772}
   floorType:
   - {fileID: 852168312}
   - {fileID: 1150310249}
   ImageLoop:
   - {fileID: 949661553}
-  - {fileID: 0}
-  - {fileID: 0}
+  - {fileID: 629062914}
+  - {fileID: 935547972}
   prefabList:
   - {fileID: 3849244503707980532, guid: 0b024722d80c64e57b08c214df5c9f1a, type: 3}
   - {fileID: 668077083382847925, guid: 4c4ad347bcf5049db95793a8e53c981f, type: 3}

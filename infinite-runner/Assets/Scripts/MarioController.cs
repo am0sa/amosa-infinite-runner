@@ -48,16 +48,6 @@ public class MarioController : MonoBehaviour
         pointsEarned = 0;
     }
 
-void FixedUpdate() 
-{
-    if (transform.position.y < 30)
-    {
-        Debug.Log("You Died !!!");
-        transform.position = new Vector3(0, 1, 0);
-        pointsEarned = 0;
-        currentLife = 0;
-    }
-}
     void Update()
     {
         if (!gameManager.isPaused)
