@@ -82,7 +82,7 @@ void FixedUpdate()
 
             if (Input.GetKey(KeyCode.LeftShift))
             {
-                marioSpeed = DEFAULT_MARIO_SPEED * 1.5f;
+                marioSpeed = DEFAULT_MARIO_SPEED * 2.5f;
             }
             else
             {

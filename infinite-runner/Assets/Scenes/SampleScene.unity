@@ -2290,7 +2290,6 @@ MonoBehaviour:
   debrisPrebab: {fileID: 2276133496358200787, guid: 2d8b1a72a24c9478a9a1500e666a1539,
     type: 3}
   floorContainer: {fileID: 1754349161}
-  player: {fileID: 2061573772}
   floorType:
   - {fileID: 852168312}
   - {fileID: 1150310249}
