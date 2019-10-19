@@ -51,9 +51,13 @@ public class GameManager : MonoBehaviour
     public void Update() 
     {
 <<<<<<< HEAD
+<<<<<<< HEAD
         var randomTempTime = Random.Range(0f, 20f);
         var playerTime = player.GetComponent<MarioController>().currentLife;
         if (playerTime >= 15 + randomTempTime)
+=======
+        if (player.GetComponent<MarioController>().currentLife >= 15)
+>>>>>>> parent of 7f7de6b... Post Test
 =======
         if (player.GetComponent<MarioController>().currentLife >= 15)
 >>>>>>> parent of 7f7de6b... Post Test
@@ -68,7 +72,11 @@ public class GameManager : MonoBehaviour
             }
         }
 <<<<<<< HEAD
+<<<<<<< HEAD
         else if (playerTime >= 2.5 + randomTempTime)
+=======
+        else if (player.GetComponent<MarioController>().currentLife >= 2.5)
+>>>>>>> parent of 7f7de6b... Post Test
 =======
         else if (player.GetComponent<MarioController>().currentLife >= 2.5)
 >>>>>>> parent of 7f7de6b... Post Test
