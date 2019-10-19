@@ -31,7 +31,9 @@ public class GameManager : MonoBehaviour
     public float WORLD_LEFT_SPEED;
 
     public enum SpawnPos {fromAbove = 0, fromAhead = 1}
+
     public bool isPaused = false;
+    private bool floorIsChanging = false;
 
     void Awake()
     {
@@ -50,11 +52,14 @@ public class GameManager : MonoBehaviour
 
     public void Update() 
     {
-        if (player.GetComponent<MarioController>().currentLife >= 15)
+
+        var randomTempTime = Random.Range(0f, 20f);
+        var playerTime = (int)player.GetComponent<MarioController>().currentLife;
+        if (playerTime % 10 <= randomTempTime && !floorIsChanging)
         {
             FloorChange(0);
         }
-        else if (player.GetComponent<MarioController>().currentLife >= 2.5)
+        else if (playerTime % 20 > randomTempTime && !floorIsChanging)
         {
             FloorChange(1);
         }
@@ -68,6 +73,11 @@ public class GameManager : MonoBehaviour
             Vector3 positionChange = Vector3.MoveTowards(floorContainer.transform.position, floorType[typeNumber].transform.position, 2.5f * Time.deltaTime);
             floorContainer.transform.position = positionChange;
             floorContainer.transform.localScale = scaleChange;
+            floorIsChanging = true;
+        }
+        else
+        {
+            floorIsChanging = false;
         }
     }
 
