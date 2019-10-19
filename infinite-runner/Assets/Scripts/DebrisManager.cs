@@ -11,7 +11,7 @@ public class DebrisManager : MonoBehaviour
 
     void Start()
     {
-        duration = 7.7f;
+        duration = 3.5f;
         gameManager = GameObject.Find("GameManager").GetComponent<GameManager>();
         GetComponent<Rigidbody2D>().AddTorque(125f);
     }

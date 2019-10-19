@@ -1,11 +1,19 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI;
 
 public class GameManager : MonoBehaviour
 {
     public static GameManager Instance = null;
     public GameObject menuOverlay;
+    public GameObject userInterface;
+    public Text highestScore;
+    public Text currentScore;
+    public Text longestLife;
+    public Text currentLife;
+
+
     public GameObject bulletPrefab;  //delete from here-----
     public GameObject coinPrefab;
     public GameObject rareCoinPrefab;
@@ -13,6 +21,10 @@ public class GameManager : MonoBehaviour
     public GameObject smallPointsPrefab;
     public GameObject largePointsPrefab;
     public GameObject debrisPrebab;  //to here--------------
+    public GameObject floorContainer;
+    public GameObject player;
+    private Transform FLOOR_DEFAULT;
+    public Transform[] floorType;
     public GameObject[] ImageLoop;
     public GameObject[] prefabList;
 
@@ -26,12 +38,37 @@ public class GameManager : MonoBehaviour
         SetInstance();
         isPaused = true;
         WORLD_LEFT_SPEED = 3f;
+        FLOOR_DEFAULT = floorContainer.transform;
     }
 
     void Start()
     {
         InvokeRepeating("RandomSpawn", 6.9f, 1f);
         InvokeRepeating("RandomSpawn2", Random.Range(3, 7), 1f);
+    }
+
+
+    public void Update() 
+    {
+        if (player.GetComponent<MarioController>().currentLife >= 15)
+        {
+            FloorChange(0);
+        }
+        else if (player.GetComponent<MarioController>().currentLife >= 2.5)
+        {
+            FloorChange(1);
+        }
+    }
+
+    public void FloorChange(int typeNumber)
+    {
+        if(floorContainer.transform != floorType[typeNumber])
+        {
+            Vector3 scaleChange = Vector3.MoveTowards(floorContainer.transform.localScale, floorType[typeNumber].transform.localScale, Time.deltaTime);
+            Vector3 positionChange = Vector3.MoveTowards(floorContainer.transform.position, floorType[typeNumber].transform.position, 2.5f * Time.deltaTime);
+            floorContainer.transform.position = positionChange;
+            floorContainer.transform.localScale = scaleChange;
+        }
     }
 
     void SetInstance()
@@ -79,7 +116,7 @@ public class GameManager : MonoBehaviour
         if (spawn == SpawnPos.fromAbove)
         {
             tempY = 13f;
-            tempX = Random.Range(-15f, 18.1f);
+            tempX = Random.Range(-15f, 15f);
         }
         
         if(spawn == SpawnPos.fromAhead)
@@ -102,7 +139,7 @@ public class GameManager : MonoBehaviour
         if (spawn == SpawnPos.fromAbove)
         {
             tempY = 13f;
-            tempX = Random.Range(-15f, 18.1f);
+            tempX = Random.Range(-15f, 15f);
         }
         
         if(spawn == SpawnPos.fromAhead)

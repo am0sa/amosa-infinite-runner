@@ -3,7 +3,11 @@
 --- !u!78 &1
 TagManager:
   serializedVersion: 2
-  tags: []
+  tags:
+  - coin1
+  - coin2
+  - pointsSmall
+  - pointsLarge
   layers:
   - Default
   - TransparentFX

@@ -1,6 +1,7 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI;
 
 public class MarioController : MonoBehaviour
 {
@@ -12,8 +13,11 @@ public class MarioController : MonoBehaviour
     public float marioSpeed;
     public float JUMP_FORCE;
     public float levelDrift;
+    public float longestLife;
+    public float currentLife;
 
     public int pointsEarned;
+    public int highestScore;
 
     public bool grounded;
 
@@ -46,13 +50,24 @@ public class MarioController : MonoBehaviour
 
     void Update()
     {
-        if (transform.position.y <= 0.484f)
-        {
-            grounded = true;
-        }
-
         if (!gameManager.isPaused)
         {
+            currentLife += Time.deltaTime;
+            
+            if (pointsEarned >= highestScore)
+            {
+                highestScore = pointsEarned;
+            }
+
+            if (currentLife >= longestLife)
+            {
+                longestLife = currentLife;
+            }
+
+            gameManager.highestScore.text = "Hishest Score: " + highestScore.ToString();
+            gameManager.currentScore.text = "Current Score: " + pointsEarned.ToString();
+            gameManager.longestLife.text = "Longest Life: " + ((int)longestLife).ToString();
+            gameManager.currentLife.text = "Current Life: " + ((int)currentLife).ToString();
             transform.Translate(Vector2.left * (levelDrift) * Time.deltaTime);
 
             if (Input.GetKey(KeyCode.LeftShift))
@@ -149,10 +164,49 @@ public class MarioController : MonoBehaviour
         {
             grounded = true;
         }
-        else
+
+        if (other.gameObject.layer == 10)
         {
-            grounded = false;
+            Debug.Log("You Died !!!");
+            transform.position = new Vector3(0, 1, 0);
+            pointsEarned = 0;
+            currentLife = 0;
         }
     
+    }
+
+    private void OnTriggerEnter2D(Collider2D other) 
+    {
+        if (other.tag == "coin1")
+        {
+            pointsEarned += 1;
+            other.gameObject.GetComponent<MeshRenderer>().enabled = false;
+        }
+
+        if (other.tag == "coin2")
+        {
+            pointsEarned += 2;
+            other.gameObject.GetComponent<MeshRenderer>().enabled = false;
+        }
+
+        if (other.tag == "pointsLarge")
+        {
+            pointsEarned += 10;
+            other.gameObject.GetComponent<MeshRenderer>().enabled = false;
+        }
+
+        if (other.tag == "pointsSmall")
+        {
+            pointsEarned += 5;
+            other.gameObject.GetComponent<MeshRenderer>().enabled = false;
+        }
+
+        if (other.gameObject.layer == 10)
+        {
+            Debug.Log("You Died !!!");
+            transform.position = new Vector3(0, 1, 0);
+            pointsEarned = 0;
+            currentLife = 0;
+        }
     }
 }

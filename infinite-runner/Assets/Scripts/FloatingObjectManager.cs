@@ -10,7 +10,7 @@ public class FloatingObjectManager : MonoBehaviour
     void Start()
     {
         gameManager = GameObject.Find("GameManager").GetComponent<GameManager>();
-        bonusSpeed = Random.Range(0f, 4f);
+        bonusSpeed = Random.Range(0f, 9f);
     }
 
     void Update()
